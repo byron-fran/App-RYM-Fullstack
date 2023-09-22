@@ -2,21 +2,19 @@ import {Link} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {addFavorite, removeFavorite} from "../redux/actions/actions";
 import {useState, useEffect} from "react";
+
 import {  CardDiv,BotonesDiv,PersonajeNombre,PersonajeImage, BotonDelete } from "../layout/layout";
 
 function Card({personaje, onClose}) {
   const dispatch = useDispatch();
  
-  const favorites = useSelector( state => state.favorites);
+  const favorites = useSelector( state => state.favorites.favorites);
  
-  // const location = useLocation()
   
   const [isFav, setFav] = useState(false);
   const [closeBtn, setCloseBtn] = useState(true);
  
-  // function navigateHandler() {
-  //   navigate(`/detail/${personaje.id}`);
-  // }
+
 
   useEffect(() => {
     if (!onClose) {
@@ -26,21 +24,22 @@ function Card({personaje, onClose}) {
 
   useEffect(() => {
     //[rick, morty, mr poppybutthole]
-    favorites.forEach((fav) => {
+    favorites && favorites.forEach((fav) => {
       if (fav.id === personaje.id) {
         setFav(true);
       }
     });
   }, [isFav]);
 
-  function handleFavorite(character) {
+ async function handleFavorite(character) {
+    console.log(character)
     if (!isFav) {
-      dispatch(addFavorite(character))
-      ; //{}
+       dispatch(addFavorite(character))
+       //{}
       setFav(true);
     } else {
-      dispatch(removeFavorite(character))
-      ; //id
+       dispatch(removeFavorite(character.id))
+       //id
       setFav(false);
     }
   }
@@ -60,7 +59,7 @@ function Card({personaje, onClose}) {
             {isFav ? (
         <button
           onClick={() => {
-            handleFavorite(personaje.id);
+            handleFavorite(personaje);
           }}
         >
           ❤️

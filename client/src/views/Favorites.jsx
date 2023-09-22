@@ -1,12 +1,13 @@
 // import {connect} from "react-redux";
+import { useEffect } from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {sortById, filterByGender, reset} from "../redux/actions/actions";
+import {sortById, filterByGender, reset, getFavorites} from "../redux/actions/actions";
 import Cards from "../components/Cards";
 import { Select, BotonReset, SelectDiv  } from "../layout/layout";
 
 function Favorites() {
   const dispatch = useDispatch();
-  const favorites = useSelector((state) => state.favorites);
+  const favorites = useSelector((state) => state.favorites.favorites);
 
   const sortHandler = (event) =>{
     dispatch(sortById(event.target.value));
@@ -19,6 +20,10 @@ function Favorites() {
   const resetHandler = () =>{
     dispatch(reset());
   }
+  useEffect(() => {
+    
+    dispatch(getFavorites())
+  },[])
 
   return (
     <>
@@ -48,10 +53,4 @@ function Favorites() {
 
 export default Favorites;
 
-// const mapStateToProps = (state) => {
-//   return {
-//     favorites: state.favorites,
-//   };
-// };
 
-// export default connect(mapStateToProps, null)(Favorites);

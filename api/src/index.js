@@ -1,14 +1,25 @@
 // EXPRESS
-
 const express = require("express");
 const mainRouter = require("./routes/mainRouter");
 const server = express();
 const morgan = require("morgan");
+const  sequelize  = require('../db/db');
+//  const Favorites = require('../models/Favorites');
+//  const Users = require('../models/User');
 
 const PORT = 3001;
+//conexion a base de datos
+server.listen(PORT, async () => {
+    try{
 
-server.listen(PORT, () => {
-  console.log(`Server raised on port: ${PORT}`);
+        console.log(`escuhando el puerto ${PORT}`);
+        console.log('Conexion a la base de datos');
+        
+        await sequelize.authenticate();
+        await sequelize.sync({force : false})
+    }
+    catch(error){ console.log(error) }
+
 });
 
 server.use((req, res, next) => {
@@ -23,24 +34,8 @@ server.use((req, res, next) => {
 });
 
 server.use(express.json());
+server.use(express.urlencoded({extended : true}))
 server.use(morgan("dev"));
 
 server.use("/rickandmorty", mainRouter);
 
-// WEBSERVER NODE
-// const http = require("http");
-// const getCharById = require("./controllers/getCharById");
-
-// const PORT = 3001;
-
-// http
-//   .createServer((req, res) => {
-//     const {url} = req;
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-
-//     if (url.includes("rickandmorty/character/")) {
-//       let urlId = url.split("/").pop();
-//       getCharById(res, urlId);
-//     }
-//   })
-//   .listen(PORT);

@@ -1,8 +1,6 @@
 import {useState, useEffect} from "react";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
-
-
 import Cards from "./components/Cards.jsx";
 import Nav from "./components/Nav.jsx";
 import Detail from "./views/Detail.jsx";
@@ -51,7 +49,7 @@ const searchHandler = async id => {
       const personajeExiste = personajes.find(personaje => personaje.id === data.id);
       if(!personajeExiste){
          setPersonajes(value => [...value, data]);
-
+        console.log(personajes)
         return
       }
       alert('El Personaje ya existe')

@@ -12,21 +12,20 @@ function rootReducer(state = initialState, action) {
     case ADD_TO_FAVORITES:
       return {
         ...state,
-        favorites: action.payload,
-        allCharacters: action.payload,
+        favorites : action.payload,
+        allCharacters : action.payload
       };
 
     case REMOVE_FAVORITE:
       return {
         ...state,
-        favorites: action.payload,
-        allCharacters: action.payload,
+        favorites: action.payload
       };
 
     case FILTER:
       return {
         ...state,
-        favorites: state.allCharacters.filter(
+        favorites: state.favorites.filter(
           (character) => character.gender === action.payload
         ),
       };

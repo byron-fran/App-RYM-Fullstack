@@ -1,14 +1,24 @@
 import { ADD_TO_FAVORITES,REMOVE_FAVORITE,SORT,FILTER,RESET,DETAIL} from "./action-types";
 import axios from "axios";
 
-export const addFavorite =  character => {
-  const url = "http://localhost:3001/rickandmorty/fav";
+
+
+export const getFavorites = () => {
   return async dispatch => {
-    const {data} = await axios.post(url, character)
-      return dispatch({
-        type: ADD_TO_FAVORITES,
-        payload: data,
-      });
+    const url = 'http://localhost:3001/rickandmorty/favorites';
+    const {data} = await axios.get(url);
+
+    return dispatch ({
+      type : ADD_TO_FAVORITES,
+      payload : data
+    })
+  }
+} 
+
+export const addFavorite =  character => {
+  return async dispatch => {
+   await axios.post(`http://localhost:3001/rickandmorty/fav/`, character,);
+    return dispatch
     
   };
 };
